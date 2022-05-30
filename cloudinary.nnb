@@ -3,21 +3,21 @@
         {
             "language": "markdown",
             "source": [
-                "Prepare to use Cloudinary Node.js SDK\n- initialize NPM\n- `npm install cloudinary dotenv`\n- add CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUDNAME to .env file"
+                "## Prepare to use Cloudinary Node.js SDK \n- initialize NPM\n- `npm install cloudinary dotenv`\n- add CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUDNAME to .env file\n- run `npm i --save-dev @types/node` "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Upload a remote image to Cloudinary"
             ],
             "outputs": []
         },
         {
             "language": "typescript",
             "source": [
-                "Upload a remote image to Cloudinary"
-            ],
-            "outputs": []
-        },
-        {
-            "language": "typescript",
-            "source": [
-                "require('dotenv').config();\nconst cloudinary = require('cloudinary').v2;\n\ncloudinary.uploader.upload(\"https://upload.wikimedia.org/wikipedia/commons/5/56/Chocolate_cupcakes.jpg\")\n\t.then(result => {console.log(result)})\n\t.catch(error => {console.log(error)});"
+                "require('dotenv').config();\nlet cloudinary = require('cloudinary').v2;\n\ncloudinary.uploader.upload(\"https://upload.wikimedia.org/wikipedia/commons/5/56/Chocolate_cupcakes.jpg\")\n\t.then(result => { console.log(result) })\n\t.catch(error => { console.log(error) });"
             ],
             "outputs": [
                 {
@@ -57,7 +57,54 @@
         {
             "language": "markdown",
             "source": [
-                "Resources: Use reourses to get information about Cloudinary assets"
+                "## Upload and assign public ID\nOverwrite any existing images of this type and invalidate the cache."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "require('dotenv').config();\ncloudinary = require('cloudinary').v2;\n\ncloudinary.uploader.upload(\"https://upload.wikimedia.org/wikipedia/commons/5/56/Chocolate_cupcakes.jpg\",\n    {\n        public_id: \"cupcakes\",\n        invalidate: true,\n        overwrite: true\n    })\n    .then(result => { console.log(result) })\n    .catch(error => { console.log(error) });"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "{",
+                                "  asset_id: '5d47f4109df08a081966d77df9fa51a3',",
+                                "  public_id: 'cupcakes',",
+                                "  version: 1653881114,",
+                                "  version_id: '5c8d6f233e4d52177de1d0fc43e1d2a2',",
+                                "  signature: '933bbb1db1ef4fcc5e0a7d6455beb34c67442b49',",
+                                "  width: 700,",
+                                "  height: 456,",
+                                "  format: 'jpg',",
+                                "  resource_type: 'image',",
+                                "  created_at: '2022-05-30T03:25:14Z',",
+                                "  tags: [],",
+                                "  bytes: 246958,",
+                                "  type: 'upload',",
+                                "  etag: '78ef208b59d8277be9f12ec53c9a5224',",
+                                "  placeholder: false,",
+                                "  url: 'http://res.cloudinary.com/picturecloud7/image/upload/v1653881114/cupcakes.jpg',",
+                                "  secure_url: 'https://res.cloudinary.com/picturecloud7/image/upload/v1653881114/cupcakes.jpg',",
+                                "  access_mode: 'public',",
+                                "  original_filename: 'Chocolate_cupcakes',",
+                                "  api_key: '631476671131724'",
+                                "}",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Resources: \n### Use reourses to get information about Cloudinary assets"
             ],
             "outputs": []
         },
@@ -71,7 +118,7 @@
         {
             "language": "typescript",
             "source": [
-                "require('dotenv').config();\nconst cloudinary = require('cloudinary').v2;\n\ncloudinary.api.resources({\n  max_results: '15'\n})\n  .then(result => console.log(result))\n  .catch(error => console.error(error));"
+                "require('dotenv').config();\ncloudinary = require('cloudinary').v2;\n\ncloudinary.api.resources({\n  max_results: '15'\n})\n  .then(result => console.log(result))\n  .catch(error => console.error(error));"
             ],
             "outputs": [
                 {
@@ -344,6 +391,46 @@
                     ]
                 }
             ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## Transformations: \n### Resize  \nThe `cloudinary.url` helper outputs a URL string.  You can open in default browser by installing `open`.  \n`npm install open`  \nThe `secure: true` parameter makes the URL `https` instead of `http`.  "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "// let open = require('open')\nconst resizeUrl: string = cloudinary.url('cupcakes.jpg', {\n  secure: true,\n  crop: 'scale',\n  width: 300\n})\nconsole.log(resizeUrl)\n// open(resizeUrl)"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "https://res.cloudinary.com/picturecloud7/image/upload/c_scale,w_300/cupcakes.jpg",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "### View Image \n![cupcakes](https://res.cloudinary.com/picturecloud7/image/upload/c_scale,w_300/cupcakes.jpg)"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
         }
     ]
 }
